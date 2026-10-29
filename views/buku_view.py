@@ -32,7 +32,20 @@ class BukuView(ctk.CTk):
 
         # Tombol Aksi
         self.btn_simpan = ctk.CTkButton(self.frame_kiri, text="Simpan Data", fg_color="green")
-        self.btn_simpan.pack(pady=20, padx=15, fill="x")
+        self.btn_simpan.pack(pady=(20, 10), padx=15, fill="x")
+
+        self.btn_perbarui = ctk.CTkButton(self.frame_kiri, text="Perbarui Data")
+        self.btn_perbarui.pack(pady=10, padx=15, fill="x")
+
+        self.btn_hapus = ctk.CTkButton(self.frame_kiri, text="Hapus Data", fg_color="red")
+        self.btn_hapus.pack(pady=10, padx=15, fill="x")
+
+        self.btn_logout = ctk.CTkButton(self.frame_kiri, text="Log Out", fg_color="gray", hover_color="darkgray")
+        self.btn_logout.pack(pady=(30, 10), padx=15, fill="x", side="bottom") 
+
+        # ==========================================
+        # FRAME KANAN: TABEL DAFTAR BUKU
+        # ... (lanjutan kode Anda) ...
 
         # ==========================================
         # FRAME KANAN: TABEL DAFTAR BUKU

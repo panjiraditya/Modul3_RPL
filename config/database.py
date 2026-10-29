@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
+
 class Database:
     def __init__(self):
         self.host = "localhost"
@@ -10,6 +11,7 @@ class Database:
         self.conn = None
 
     def get_connection(self):
+        """Membuka koneksi baru ke database MySQL."""
         try:
             self.conn = mysql.connector.connect(
                 host=self.host,
@@ -21,4 +23,9 @@ class Database:
                 return self.conn
         except Error as e:
             print(f"Koneksi Gagal: {e}")
-            return None
+        return None
+
+
+def get_connection():
+    """Fungsi bantu agar model bisa selalu memakai koneksi yang masih hidup."""
+    return Database().get_connection()

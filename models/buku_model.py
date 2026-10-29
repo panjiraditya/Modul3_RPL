@@ -9,35 +9,50 @@ class BukuModel:
     def get_all_buku(self):
         if self.conn:
             cursor = self.conn.cursor(dictionary=True)
-            query = f"SELECT * FROM {self.table_name}"
+            query = "SELECT id_buku, judul, penulis, tahun_terbit FROM buku" 
             cursor.execute(query)
-            result = cursor.fetchall()
+            data = cursor.fetchall()
             cursor.close()
-            return result
+            return data
         return []
 
-    def create_buku(self, judul, penulis, tahun_terbit):
+    def create_buku(self, judul, penulis, tahun):
         if self.conn:
-            cursor = self.conn.cursor()
-            query = f"INSERT INTO {self.table_name} (judul, penulis, tahun_terbit) VALUES (%s, %s, %s)"
-            val = (judul, penulis, tahun_terbit)
-            cursor.execute(query, val)
-            self.conn.commit()
-            cursor.close()
-            return True
+            try:
+                cursor = self.conn.cursor()
+                # PERIKSA: Pastikan nama kolom 'tahun_terbit' sama persis dengan yang ada di database Anda
+                query = "INSERT INTO buku (judul, penulis, tahun_terbit) VALUES (%s, %s, %s)"
+                
+                # Eksekusi query
+                cursor.execute(query, (judul, penulis, tahun))
+                
+                # WAJIB ADA: Perintah ini untuk menyimpan perubahan secara permanen
+                self.conn.commit() 
+                
+                cursor.close()
+                return True
+            except Exception as e:
+                print(f"Terjadi kesalahan saat simpan data: {e}") # Akan mencetak error di terminal
+                return False
         return False
-    
-    def update_buku(self, id_buku, judul, penulis, tahun_terbit):
+
+    def update_buku(self, id_buku, judul, penulis, tahun):
         if self.conn:
-            cursor = self.conn.cursor()
-            query = f"UPDATE {self.table_name} SET judul = %s, penulis = %s, tahun_terbit = %s WHERE id_buku = %s"
-            val = (judul, penulis, tahun_terbit, id_buku)
-            cursor.execute(query, val)
-            self.conn.commit()
-            cursor.close()
-            # Teks print disesuaikan
-            print("Data buku berhasil diperbarui!\n")
-            return True
+            try:
+                cursor = self.conn.cursor()
+                # PERIKSA: Pastikan nama kolom 'tahun_terbit' sama persis dengan yang ada di database
+                query = "UPDATE buku SET judul = %s, penulis = %s, tahun_terbit = %s WHERE id_buku = %s"
+                cursor.execute(query, (judul, penulis, tahun, id_buku))
+                
+                # WAJIB ADA
+                self.conn.commit()
+                
+                cursor.close()
+                return True
+            except Exception as e:
+                print(f"Terjadi kesalahan saat update data: {e}")
+                return False
+        return False
 
     def delete_buku(self, id_buku):
         if self.conn:
